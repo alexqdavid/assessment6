@@ -7,6 +7,20 @@ const {shuffleArray} = require('./utils')
 app.use(express.json())
 app.use(express.static('public'))
 
+
+// include and initialize the rollbar library with your access token
+let Rollbar = require('rollbar')
+let rollbar = new Rollbar({
+  accessToken: 'cdf0e48719704b9ca4d7ed53c3e4c494',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+rollbar.log('test')
+
+
 const { getHTML } = require('./controller')
 
 app.get('/', getHTML)
@@ -72,7 +86,7 @@ app.get('/api/player', (req, res) => {
     }
 })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5060
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
